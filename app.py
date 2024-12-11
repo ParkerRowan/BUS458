@@ -66,13 +66,19 @@ st.write("Please enter the following details to predict the salary:")
 age = st.number_input('Age', min_value=18, max_value=100, value=25)
 
 # Other fields: Dropdown menus for categorical selections
-education_level = st.selectbox('Education Level', options=list(range(0, 6)), index=2)  # Range 0-5
-years_using_ml = st.selectbox('Years Using ML', options=list(range(0, 9)), index=3)  # Range 0-8
-years_experience = st.selectbox('Years of Experience', options=list(range(0, 7)), index=3)  # Range 0-6
-uses_database_lang = st.selectbox('Uses Database Languages', options=[0, 1], index=0)
-uses_statistical_lang = st.selectbox('Uses Statistical Languages', options=[0, 1], index=0)
-title = st.selectbox('Title', options=list(range(0, 15)), index=0)  # Range 0-14
-ml_expense = st.selectbox('ML Expense', options=list(range(0, 6)), index=2)  # Range 0-5
+education_level = st.selectbox('Education Level (0 = No Formal Education Past High School, 1 = Some College, 2 = Bachelors Degree, 3 = Master’s Degree, 4 = Doctoral Degree, 5 = Professional Doctorate)', options=list(range(0, 6)), index=2)
+
+years_using_ml = st.selectbox('Years Using Machine Learning (0 = Does not use ML, 1 = < 1 Year, 2 = 1-2 Years, 3 = 2-3 Years, 4 = 3-4 Years, 5 = 4-5 Years, 6 = 5-10 Years, 7 = 10-20 Years, 8 = > 20 Years)', options=list(range(0, 9)), index=3)
+
+years_experience = st.selectbox('Years of Experience (0 = Has Never Written Code, 1 = < 1 Year, 2 = 1-2 Years, 3 = 3-5 Years, 4 = 5-10 Years, 5 = 10-20 Years, 6 = > 20 Years)', options=list(range(0, 7)), index=3)
+
+uses_database_lang = st.selectbox('Uses Database Languages (1 = Respondent uses SQL on a regular basis, 0 = Does not use)', options=[0, 1], index=0)
+
+uses_statistical_lang = st.selectbox('Uses Statistical Languages (1 = Respondent uses R, MATLAB, Julia on a regular basis, 0 = Does not use)', options=[0, 1], index=0)
+
+title = st.selectbox('Title (0 = Currently not employed, 1 = Data Scientist, 2 = Software Engineer, 3 = Research Scientist, 4 = Other, 5 = Developer Advocate, 6 = Data Analyst, 7 = Data Engineer, 8 = ML/MLops Engineer, 9 = Engineer, 10 = Teacher/Professor, 11 = Statistician, 12 = Manager, 13 = Data Administrator, 14 = Data Architect)', options=list(range(0, 15)), index=0)
+
+ml_expense = st.selectbox('ML Expense (0 = $0, 1 = $1-$99, 2 = $100-$999, 3 = $1000-$9,999, 4 = $10,000-$99,999, 5 = $100,000 or more)', options=list(range(0, 6)), index=2)
 
 # Prediction button
 if st.button('Predict Salary'):
