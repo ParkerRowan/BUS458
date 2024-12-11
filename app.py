@@ -4,13 +4,14 @@ import pickle
 import requests
 from io import BytesIO
 
-# URL to your raw model file on GitHub
-model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/trained_model.pkl'
+# URL to your raw model file on GitHub (make sure this is the raw URL)
+model_url = 'https://github.com/ParkerRowan/BUS458/raw/main/trained_model.pkl'
 
 def load_model_from_github(url):
     try:
         response = requests.get(url)
         response.raise_for_status()  # Ensure no HTTP errors (404, etc.)
+        print(f"Successfully fetched model from {url}")  # Debug message
         model = pickle.load(BytesIO(response.content))  # Use pickle to load model
         return model
     except requests.exceptions.RequestException as e:
@@ -20,9 +21,10 @@ def load_model_from_github(url):
         print(f"Error loading model: {e}")
         return None
 
-# Load the trained model from GitHub
+# Load the model from GitHub
 model = load_model_from_github(model_url)
 
+# Check if the model was loaded successfully
 if model is None:
     st.error("Model could not be loaded. Please check the URL or try again later.")
 else:
