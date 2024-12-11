@@ -45,10 +45,7 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
     })
 
     # Ensure input_data is 2D (for prediction)
-    print("Input data for prediction:")
-    print(input_data)
-    
-    input_data = input_data.values  # Convert DataFrame to a 2D numpy array (if needed)
+    input_data = input_data.values  # Convert DataFrame to a 2D numpy array
 
     # Predict salary using the model
     prediction = model.predict(input_data)
@@ -59,14 +56,17 @@ st.title('Salary Prediction Model')
 st.write("Please enter the following details to predict the salary:")
 
 # Input fields for the user
+# Age: Number input with + and - buttons
 age = st.number_input('Age', min_value=18, max_value=100, value=25)
-education_level = st.number_input('Education Level', min_value=0, max_value=5, value=2)
-years_using_ml = st.number_input('Years Using ML', min_value=0, max_value=20, value=3)
-years_experience = st.number_input('Years of Experience', min_value=0, max_value=20, value=3)
+
+# Other fields: Dropdown menus for categorical selections
+education_level = st.selectbox('Education Level', options=[0, 1, 2, 3, 4, 5], index=2)
+years_using_ml = st.selectbox('Years Using ML', options=list(range(0, 21)), index=3)
+years_experience = st.selectbox('Years of Experience', options=list(range(0, 21)), index=3)
 uses_database_lang = st.selectbox('Uses Database Languages', options=[0, 1], index=0)
 uses_statistical_lang = st.selectbox('Uses Statistical Languages', options=[0, 1], index=0)
-title = st.number_input('Title', min_value=1, max_value=14, value=1)
-ml_expense = st.number_input('ML Expense', min_value=0, max_value=10, value=2)
+title = st.selectbox('Title', options=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], index=0)
+ml_expense = st.selectbox('ML Expense', options=list(range(0, 11)), index=2)
 
 # Prediction button
 if st.button('Predict Salary'):
