@@ -1,16 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
-import requests
-from io import BytesIO
-
 import pickle
 import requests
 from io import BytesIO
 
-# URL to your model file on GitHub (replace with actual raw URL)
-model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/linear_regression_model2.pkl'
+# URL to your raw model file on GitHub
+model_url = 'https://github.com/ParkerRowan/BUS458/raw/main/linear_regression_model.pkl'
 
 def load_model_from_github(url):
     try:
@@ -36,6 +32,7 @@ else:
 # Function to predict salary
 def predict_salary(age, education_level, years_using_ml, years_experience, 
                    uses_database_lang, uses_statistical_lang, title, ml_expense):
+    # Prepare the input data as a DataFrame
     input_data = pd.DataFrame({
         'Age': [age],
         'EducationLevel': [education_level],
@@ -46,7 +43,13 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
         'Title': [title],
         'ML_Expense': [ml_expense]
     })
+
+    # Ensure input_data is 2D (for prediction)
+    print("Input data for prediction:")
+    print(input_data)
     
+    input_data = input_data.values  # Convert DataFrame to a 2D numpy array (if needed)
+
     # Predict salary using the model
     prediction = model.predict(input_data)
     return prediction[0]
