@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import pickle
 import requests
 from io import BytesIO
@@ -44,8 +43,8 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
         'ML_Expense': [ml_expense]
     })
 
-    # Ensure input_data is 2D (for prediction)
-    input_data = input_data.values  # Convert DataFrame to a 2D numpy array
+    # Convert input_data into a 2D numpy array
+    input_data = input_data.values  # .values is a pandas function that converts DataFrame to ndarray
 
     # Predict salary using the model
     prediction = model.predict(input_data)
