@@ -5,17 +5,33 @@ import joblib
 import requests
 from io import BytesIO
 
-# URL to your model file on GitHub
+import pickle
+import requests
+from io import BytesIO
+
+# URL to your model file on GitHub (replace with actual raw URL)
 model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/linear_regression_model.pkl'
 
-# Download and load the model from GitHub
 def load_model_from_github(url):
-    response = requests.get(url)
-    model = joblib.load(BytesIO(response.content))
-    return model
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Ensure no HTTP errors (404, etc.)
+        model = pickle.load(BytesIO(response.content))  # Use pickle to load model
+        return model
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching model: {e}")
+        return None
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None
 
 # Load the model
 model = load_model_from_github(model_url)
+
+if model is None:
+    st.error("Model could not be loaded. Please check the URL or try again later.")
+else:
+    st.success("Model loaded successfully!")
 
 # Function to predict salary
 def predict_salary(age, education_level, years_using_ml, years_experience, 
