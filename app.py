@@ -4,11 +4,9 @@ import numpy as np
 import pickle
 import requests
 from io import BytesIO
-from sklearn.preprocessing import StandardScaler
 
 # URL to your raw model file on GitHub
 model_url = 'https://github.com/ParkerRowan/BUS458/raw/main/linear_regression_model.pkl'
-scaler_url = 'https://github.com/ParkerRowan/BUS458/raw/main/scaler.pkl'  # If using a scaler
 
 def load_model_from_github(url):
     try:
@@ -23,24 +21,8 @@ def load_model_from_github(url):
         print(f"Error loading model: {e}")
         return None
 
-def load_scaler_from_github(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Ensure no HTTP errors (404, etc.)
-        scaler = pickle.load(BytesIO(response.content))  # Use pickle to load scaler
-        return scaler
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching scaler: {e}")
-        return None
-    except Exception as e:
-        print(f"Error loading scaler: {e}")
-        return None
-
 # Load the model
 model = load_model_from_github(model_url)
-
-# Load the scaler (if needed)
-scaler = load_scaler_from_github(scaler_url)
 
 if model is None:
     st.error("Model could not be loaded. Please check the URL or try again later.")
@@ -62,23 +44,12 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
         'ML_Expense': [ml_expense]
     })
 
-    # Check the type of model before we call .predict() to ensure it's not overwritten
-    print(f"Type of model: {type(model)}")  # Should print <class 'sklearn.linear_model._base.LinearRegression'> or similar
-
-    # Check if a scaler is loaded and scale input data
-    if scaler:
-        input_data = scaler.transform(input_data)  # This returns a 2D numpy array, not replacing the model
-
     # Ensure input_data is 2D (for prediction)
     input_data = input_data.values  # Convert DataFrame to a 2D numpy array
 
-    # Print input data type to check it's a numpy ndarray
-    print(f"Type of input_data: {type(input_data)}")  # Should print <class 'numpy.ndarray'>
-
-    # Predict salary using the model (the model object should still be the trained model)
+    # Predict salary using the model
     prediction = model.predict(input_data)
     return prediction[0]
-
 
 # Set up the Streamlit UI
 st.title('Salary Prediction Model')
