@@ -10,7 +10,7 @@ import requests
 from io import BytesIO
 
 # URL to your model file on GitHub (replace with actual raw URL)
-model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/linear_regression_model.pkl'
+model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/linear_regression_model2.pkl'
 
 def load_model_from_github(url):
     try:
