@@ -62,15 +62,21 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
         'ML_Expense': [ml_expense]
     })
 
+    # Check the type of model before we call .predict() to ensure it's not overwritten
+    print(f"Type of model: {type(model)}")  # Should print <class 'sklearn.linear_model._base.LinearRegression'> or similar
+
     # Check if a scaler is loaded and scale input data
     if scaler:
         input_data = scaler.transform(input_data)  # This returns a 2D numpy array, not replacing the model
 
     # Ensure input_data is 2D (for prediction)
-    input_data = input_data.values  # Convert DataFrame to a 2D numpy array, if not already
+    input_data = input_data.values  # Convert DataFrame to a 2D numpy array
+
+    # Print input data type to check it's a numpy ndarray
+    print(f"Type of input_data: {type(input_data)}")  # Should print <class 'numpy.ndarray'>
 
     # Predict salary using the model (the model object should still be the trained model)
-    prediction = model.predict(input_data)  # Call predict() on the model, not the numpy array
+    prediction = model.predict(input_data)
     return prediction[0]
 
 
