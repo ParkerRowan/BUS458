@@ -5,7 +5,7 @@ import requests
 from io import BytesIO
 
 # URL to your raw model file on GitHub
-model_url = 'https://github.com/ParkerRowan/BUS458/raw/main/linear_regression_model.pkl'
+model_url = 'https://github.com/ParkerRowan/BUS458/blob/main/trained_model.pkl'
 
 def load_model_from_github(url):
     try:
@@ -20,7 +20,7 @@ def load_model_from_github(url):
         print(f"Error loading model: {e}")
         return None
 
-# Load the model
+# Load the trained model from GitHub
 model = load_model_from_github(model_url)
 
 if model is None:
@@ -44,10 +44,15 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
     })
 
     # Convert input_data into a 2D numpy array
-    input_data = input_data.values  # .values is a pandas function that converts DataFrame to ndarray
+    input_data = input_data.values  # This converts the DataFrame to a 2D numpy array
 
-    # Predict salary using the model
-    prediction = model.predict(input_data)
+    # Ensure the model is the correct trained model
+    if not hasattr(model, 'predict'):
+        st.error("Model is not loaded properly. Please check the model.")
+        return None
+
+    # Predict salary using the trained model
+    prediction = model.predict(input_data)  # This should be the trained model, not a numpy array
     return prediction[0]
 
 # Set up the Streamlit UI
@@ -71,4 +76,7 @@ ml_expense = st.selectbox('ML Expense', options=list(range(0, 6)), index=2)  # R
 if st.button('Predict Salary'):
     salary = predict_salary(age, education_level, years_using_ml, years_experience, 
                             uses_database_lang, uses_statistical_lang, title, ml_expense)
-    st.write(f"The predicted salary is: ${salary:,.2f}")
+    if salary is not None:
+        st.write(f"The predicted salary is: ${salary:,.2f}")
+    else:
+        st.write("There was an issue with the prediction. Please check the input data.")
