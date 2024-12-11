@@ -64,14 +64,15 @@ def predict_salary(age, education_level, years_using_ml, years_experience,
 
     # Check if a scaler is loaded and scale input data
     if scaler:
-        input_data = scaler.transform(input_data)
+        input_data = scaler.transform(input_data)  # This returns a 2D numpy array, not replacing the model
 
     # Ensure input_data is 2D (for prediction)
-    input_data = input_data.values  # Convert DataFrame to a 2D numpy array
+    input_data = input_data.values  # Convert DataFrame to a 2D numpy array, if not already
 
-    # Predict salary using the model
-    prediction = model.predict(input_data)
+    # Predict salary using the model (the model object should still be the trained model)
+    prediction = model.predict(input_data)  # Call predict() on the model, not the numpy array
     return prediction[0]
+
 
 # Set up the Streamlit UI
 st.title('Salary Prediction Model')
